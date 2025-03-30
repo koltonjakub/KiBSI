@@ -1,11 +1,14 @@
 import sys
 
-from PyQt6.QtWidgets import QApplication, QBoxLayout, QMainWindow, QPushButton, QLineEdit, QTextEdit, QWidget, QVBoxLayout, QHBoxLayout, QSpacerItem, QSizePolicy
-from PyQt6.QtGui import QPalette, QColor
+from PyQt5.QtWidgets import QApplication, QBoxLayout, QMainWindow, QPushButton, QLineEdit, QTextEdit, QWidget, QVBoxLayout, QHBoxLayout, QSpacerItem, QSizePolicy
+from PyQt5.QtGui import QPalette, QColor
 
 
-import PyQt6.QtWidgets as Widgets
-from PyQt6.QtCore import Qt
+import PyQt5.QtWidgets as Widgets
+from PyQt5.QtCore import Qt
+
+import src.bb84 as bb84
+import numpy as np
 
 class MainApp(QMainWindow):
     def __init__(self):
@@ -19,7 +22,7 @@ class MainApp(QMainWindow):
         self.setCentralWidget(central_widget)
         main_layout = QHBoxLayout()
         
-        self.input_texts = ["Alice", "Bazy(Alice): ", "Bob: ", "Bazy(Bob): ", "Eve: "]
+        self.input_texts = ["Alice", "Bazy(Alice): ", "Bazy(Bob): ", "Bob: ", "Eve: "]
         
         # Start button
         self.start_button = QPushButton("Start", self)
@@ -83,11 +86,43 @@ class MainApp(QMainWindow):
         left_layout.setStretchFactor(in_out_layout, 4)
 
         return left_layout
-        
+
     def process_input(self):
         text = self.input_field.text()
-        for output_window in self.text_edit_fields:
-            output_window.setText(text)
+
+        b, b_prime, matching_bases, bob_bits, a = bb84.bb84(text)
+
+        b = "".join(b.astype('str'))
+        b_prime = "".join(b_prime.astype('str'))
+        bob_bits = bob_bits[::-1]
+
+        formatted_b = ""
+        formatted_b_prime = ""
+        formatted_bob_bits = ""
+
+        # Apply formatting based on matching characters
+        for bit1, bit2, key_bits in zip(b, b_prime, bob_bits):
+            if bit1 == bit2:
+                formatted_b += f'<span style="color:green;">{bit1}</span>'
+                formatted_b_prime += f'<span style="color:green;">{bit2}</span>'
+                formatted_bob_bits += f'<span style="color:blue;">{key_bits}</span>'
+            else:
+                formatted_b += f'<span style="color:red;">{bit1}</span>'
+                formatted_b_prime += f'<span style="color:red;">{bit2}</span>'
+                formatted_bob_bits += f'<span style="color:gray;">{key_bits}</span>'
+
+        # Prepare outputs
+        output_texts = [
+            formatted_b,
+            formatted_b_prime,
+            formatted_bob_bits,
+            "Eavesdropping"
+        ]
+
+        # Set formatted text in the text edit fields
+        for out_txt, output_window in zip(output_texts, self.text_edit_fields):
+            output_window.setHtml(out_txt)  # Use setHtml for rich text formatting
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
