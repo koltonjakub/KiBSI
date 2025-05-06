@@ -161,8 +161,8 @@ class MainApp(QMainWindow):
 
         random_bit_string = ''.join(random.choice('01') for _ in range(int(rnd_key_length)))
         # Print the inputs to the console (for debugging purposes)
-        print(f"RND Key Length: {rnd_key_length}")
-        print(f"Eavesdropping %: {eavesdropping_prc}")
+        # print(f"RND Key Length: {rnd_key_length}")
+        # print(f"Eavesdropping %: {eavesdropping_prc}")
 
         # You can now use these inputs for further processing
  
@@ -178,12 +178,19 @@ class MainApp(QMainWindow):
         formatted_bob_bits = ""
 
         # Apply formatting based on matching characters
+        eavesdropping_missmatching_bits = 0
+        eavesdropping_sum = 0
         for bit1, bit2, alice_bit, bob_bit in zip(b, b_prime, alice_bits, bob_bits):
             if bit1 == bit2:
                 formatted_b += f'<span style="color:green;">{bit1}</span>'
                 formatted_b_prime += f'<span style="color:green;">{bit2}</span>'
                 formatted_alice_bits += f'<span style="color:blue;">{alice_bit}</span>'
                 formatted_bob_bits += f'<span style="color:blue;">{bob_bit}</span>'
+                # print(f'bit1 {bit1} | bit2 {bit2} | alcice {alice_bit} | bob_bit {bob_bit}')
+                if alice_bit != bob_bit:
+                    eavesdropping_missmatching_bits += 1
+                eavesdropping_sum += 1
+                # print(f'missmatch {eavesdropping_missmatching_bits} | sum {eavesdropping_sum}')
             else:
                 formatted_b += f'<span style="color:red;">{bit1}</span>'
                 formatted_b_prime += f'<span style="color:red;">{bit2}</span>'
@@ -196,9 +203,9 @@ class MainApp(QMainWindow):
             formatted_b,
             formatted_b_prime,
             formatted_bob_bits,
-            "Eavesdropping"
+            str(eavesdropping_missmatching_bits) + " / " + str(eavesdropping_sum) + " bits missmatch in key"
         ]
-
+        # print(f'{eavesdropping_missmatching_bits} {eavesdropping_sum}')
         # Set formatted text in the text edit fields
         for out_txt, output_window in zip(output_texts, self.text_edit_fields):
             output_window.setHtml(out_txt)  # Use setHtml for rich text formatting
