@@ -4,7 +4,7 @@ from qiskit_aer import Aer
 from typing import Tuple
 
 
-def bb84(alice_bits: str) -> Tuple[np.ndarray, np.ndarray, np.ndarray, str]:
+def bb84(alice_bits: str, eavesdropping_prc: float) -> Tuple[np.ndarray, np.ndarray, np.ndarray, str, np.ndarray]:
     a = np.array([int(elem) for elem in alice_bits])
     assert a.ndim == 1
     num_qubits = a.size
