@@ -24,7 +24,7 @@ Na niebiesko zaznaczono bity kluczy A. i B. których odpowiadające im bazy są 
 
 # Uruchomienie
 w celu uruchomienia aplikacji należy wywołać komendę
-'python3 __main__.pyw'
+'python3 \_\_main\_\_.pyw'
 w terminalu z głównego folderu projektu. W konsoli będą się pojawiać ew. komunikaty o błędach wykonania.
 
 # Źródła
