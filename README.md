@@ -1,7 +1,7 @@
 # Repozytorium dla projektu zaliczeniowego z przedmiotu Kryptografia i Bezpieczeństwo Systemów Informatycznych
-Autor: Jakub Kołton
-Kierunek: Automatyka i Robotyka: Inteligentne Systemy Sterowania
-Wydział: Elektrotechniki Automatyki Informatyki i Inżynierii Biomedycznej
+Autor: Jakub Kołton  
+Kierunek: Automatyka i Robotyka: Inteligentne Systemy Sterowania  
+Wydział: Elektrotechniki Automatyki Informatyki i Inżynierii Biomedycznej  
 Data: 27 Maj 2025r.
 
 # Wymagania systemowe
@@ -24,7 +24,7 @@ Na niebiesko zaznaczono bity kluczy A. i B. których odpowiadające im bazy są 
 
 # Uruchomienie
 w celu uruchomienia aplikacji należy wywołać komendę
-python3 __main__.pyw
+'python3 __main__.pyw'
 w terminalu z głównego folderu projektu. W konsoli będą się pojawiać ew. komunikaty o błędach wykonania.
 
 # Źródła
